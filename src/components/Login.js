@@ -18,7 +18,7 @@ const NavBar = styled.div`
   left: 0;
   right: 0;
   z-index: 1000;
-  height:50px;
+  height: 50px;
 `;
 
 const CompanyName = styled.div`
@@ -81,42 +81,18 @@ const MainFooter = styled.div`
   color: #777;
 `;
 
-const SocMedContainer = styled.p`
-  text-align: center;
-  margin: 20px 0;
+const buttonStyle = {
+  backgroundColor: '#4caf50', /* Green color */
+  color: 'white',
+  border: 'none',
+  padding: '10px 20px',
+  fontSize: '1em',
+  cursor: 'pointer',
+  borderRadius: '5px',
+  transition: 'background-color 0.3s ease',
+  margin: '10px', /* Optional: add some margin */
+};
 
-  a {
-    margin: 0 10px;
-    display: inline-block;
-  }
-
-  img {
-    vertical-align: middle;
-  }
-`;
-const button = styled.button`
-  background-color: #4caf50; /* Green color */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1em;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-  margin: 10px 0; /* Adds margin to the button */
-
-  &:hover {
-    background-color: #388e3c; /* Darker green on hover */
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:active {
-    background-color: #2c6b2f; /* Even darker green on click */
-  }
-`;
 const Home = () => {
   const [employees, setEmployees] = useState([]);
   const [deletedEmployees, setDeletedEmployees] = useState([]);
@@ -125,19 +101,32 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    const storedEmployees = JSON.parse(localStorage.getItem('employees')) || [];
-    const storedDeletedEmployees = JSON.parse(localStorage.getItem('deletedEmployees')) || [];
-    setEmployees(storedEmployees);
-    setDeletedEmployees(storedDeletedEmployees);
+    try {
+      const storedEmployees = localStorage.getItem('employees');
+      const storedDeletedEmployees = localStorage.getItem('deletedEmployees');
+
+      console.log('Stored Employees:', storedEmployees);
+      console.log('Stored Deleted Employees:', storedDeletedEmployees);
+
+      if (storedEmployees) {
+        setEmployees(JSON.parse(storedEmployees));
+      }
+      if (storedDeletedEmployees) {
+        setDeletedEmployees(JSON.parse(storedDeletedEmployees));
+      }
+    } catch (error) {
+      console.error("Error parsing localStorage data:", error);
+    }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('employees', JSON.stringify(employees));
-  }, [employees]);
-
-  useEffect(() => {
-    localStorage.setItem('deletedEmployees', JSON.stringify(deletedEmployees));
-  }, [deletedEmployees]);
+    try {
+      localStorage.setItem('employees', JSON.stringify(employees));
+      localStorage.setItem('deletedEmployees', JSON.stringify(deletedEmployees));
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+    }
+  }, [employees, deletedEmployees]);
 
   const handleSave = (newEmployee) => {
     if (editingEmployee) {
@@ -169,27 +158,15 @@ const Home = () => {
   const filteredEmployees = employees.filter(employee =>
     employee.id.toLowerCase().includes(searchQuery.toLowerCase())
   );
- // Inline styles for the button
- const buttonStyle = {
-  backgroundColor: '#4caf50', /* Green color */
-  color: 'white',
-  border: 'none',
-  padding: '10px 20px',
-  fontSize: '1em',
-  cursor: 'pointer',
-  borderRadius: '5px',
-  transition: 'background-color 0.3s ease',
-  margin: '10px' /* Optional: add some margin */
-};
 
-// Hover effect needs JavaScript; it won't work with inline styles alone
-const handleMouseOver = (e) => {
-  e.target.style.backgroundColor = '#388e3c'; /* Darker green */
-};
+  const handleMouseOver = (e) => {
+    e.target.style.backgroundColor = '#388e3c'; /* Darker green */
+  };
 
-const handleMouseOut = (e) => {
-  e.target.style.backgroundColor = '#4caf50'; /* Green color */
-};
+  const handleMouseOut = (e) => {
+    e.target.style.backgroundColor = '#4caf50'; /* Green color */
+  };
+
   return (
     <>
       <NavBar>
@@ -230,13 +207,13 @@ const handleMouseOut = (e) => {
 
             <EmployeeTable employees={filteredEmployees} handleEdit={handleEdit} handleDelete={handleDelete} />
             <button
-        style={buttonStyle}
-        onClick={() => setShowModal(true)}
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
-      >
-        Add Employee
-      </button>
+              style={buttonStyle}
+              onClick={() => setShowModal(true)}
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+            >
+              Add Employee
+            </button>
             {showModal && (
               <AddEmployeeModal
                 onClose={() => setShowModal(false)}
@@ -263,6 +240,6 @@ const handleMouseOut = (e) => {
       </Wrapper>
     </>
   );
-}
+};
 
 export default Home;
