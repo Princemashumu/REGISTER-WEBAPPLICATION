@@ -7,6 +7,8 @@
 - [ ] password: password123
 
 ## Overview
+### Login page
+![Login Page](https://github.com/user-attachments/assets/27ab80ba-edbc-415c-8896-cc2e8546cdea)
 
 The Employee Management System is a React application designed to manage employee data, including authentication and CRUD operations for employee records.
 
