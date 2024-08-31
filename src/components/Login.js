@@ -155,6 +155,7 @@ const Home = () => {
     setSearchQuery(e.target.value);
   };
 
+  // Filter employees based on search query
   const filteredEmployees = employees.filter(employee =>
     employee.id.toLowerCase().includes(searchQuery.toLowerCase())
   );
