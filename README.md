@@ -11,7 +11,8 @@
 ![Login Page](https://github.com/user-attachments/assets/27ab80ba-edbc-415c-8896-cc2e8546cdea)
 
 ### Home page
-![Homepage](https://github.com/user-attachments/assets/eb4f14dc-a436-4160-9831-5f8185c7b909)
+![Homepage](https://github.com/user-attachments/assets/96ef0b64-453a-4bde-8d17-1040f445505b)
+
 The Employee Management System is a React application designed to manage employee data, including authentication and CRUD operations for employee records.
 
 ## Common Issues and Solutions
