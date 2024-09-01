@@ -27,13 +27,6 @@ const CompanyName = styled.div`
   font-weight: bold;
 `;
 
-const CompanyLogo = styled.div`
-  img {
-    height: 50px;
-    width: auto;
-  }
-`;
-
 const LogoutButton = styled.button`
   background-color: #f44336; /* Red color */
   color: white;
@@ -182,10 +175,6 @@ const Home = () => {
             LOG OUT
           </Link>
         </LogoutButton>
-
-        <CompanyLogo>
-          <img src="Applogo.png" alt='Company Logo' />
-        </CompanyLogo>
       </NavBar>
 
       <Wrapper>
