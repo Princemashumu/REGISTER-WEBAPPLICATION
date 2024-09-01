@@ -117,7 +117,7 @@ const LoginPage = () => {
       password === LOGIN_CREDENTIALS.password
     ) {
       alert('Login successful!');
-      navigate('/login'); // Redirect to home page after successful login
+      navigate('/home'); // Redirect to home page after successful login
     } else {
       console.log('Login failed'); // Log if login fails
       setLoginFailed(true);

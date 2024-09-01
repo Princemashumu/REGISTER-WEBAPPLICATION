@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import AddEmployeeModal from '../components/AddEmployeeModal';
-import EmployeeTable from '../components/EmployeeTable';
+import AddEmployeeModal from './AddEmployeeModal';
+import EmployeeTable from './EmployeeTable';
 import DeletedEmployeeTable from './DeletedEmployeeTable';
 
 // Styled components for the layout

@@ -1,7 +1,7 @@
 import React, { useState, useEffect,Link} from 'react';
-import AddEmployeeModal from '../pages/AddEmployeeModal';
-import EmployeeTable from '../pages/EmployeeTable';
-import DeletedEmployeeTable from '../pages/DeletedEmployeeTable';
+import AddEmployeeModal from '../components/AddEmployeeModal';
+// import EmployeeTable from '../pages/EmployeeTable';
+import DeletedEmployeeTable from './DeletedEmployeeTable';
 import HomeStyle from './HomeStyle.css';
 import EmployeeDataStyle from './EmployeeDataStyle.css';
 

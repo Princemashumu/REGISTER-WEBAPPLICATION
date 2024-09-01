@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import LoginPage from './components/LoginPage';
-import Home from './pages/Home';
-import AddEmployeeModal from './pages/AddEmployeeModal.js';
+import Home from './components/Home';
+import AddEmployeeModal from './components/AddEmployeeModal.js';
 import EmployeeData from './components/EmployeeData.js';
-import DeletedEmployeeTable from './pages/DeletedEmployeeTable';
+import DeletedEmployeeTable from './components/DeletedEmployeeTable';
 import DeletedEmployeeModal from './components/DeletedEmployeeModal';
 
 const App = () => {
@@ -66,8 +66,8 @@ const App = () => {
     <Router>
       <Routes>
         <Route
-          path="/login"
-          element={isAuthenticated ? <Navigate to="/login" /> : <Login handleLogin={handleLogin} />}
+          path="/home"
+          element={isAuthenticated ? <Navigate to="/home" /> : <Home handleLogin={handleLogin} />}
         />
         <Route
           path="/"
