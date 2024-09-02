@@ -224,11 +224,11 @@ const Home = () => {
               <DeletedEmployeeTable deletedEmployees={deletedEmployees} />
             </div>
 
-            <Footer>
+            {/* <Footer>
               <Link to="/DeletedEmployees" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <p>View Former Employees.</p>
               </Link>
-            </Footer>
+            </Footer> */}
           </div>
 
           <MainFooter>
