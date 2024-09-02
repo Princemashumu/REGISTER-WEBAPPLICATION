@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-// Styled modal overlay
+// Styled components
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -15,7 +15,6 @@ const ModalOverlay = styled.div`
   z-index: 1000;
 `;
 
-// Styled modal container
 const ModalContainer = styled.div`
   background-color: white;
   padding: 20px;
@@ -26,7 +25,6 @@ const ModalContainer = styled.div`
   position: relative;
 `;
 
-// Styled close button
 const CloseButton = styled.button`
   background: transparent;
   border: none;
@@ -42,7 +40,6 @@ const CloseButton = styled.button`
   }
 `;
 
-// Styled form elements
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -66,7 +63,7 @@ const ImagePreview = styled.img`
 `;
 
 const SubmitButton = styled.button`
-  background-color: #4caf50; /* Green color */
+  background-color: #4caf50;
   color: white;
   border: none;
   padding: 10px;
@@ -77,7 +74,7 @@ const SubmitButton = styled.button`
   margin-top: 10px;
 
   &:hover {
-    background-color: #388e3c; /* Darker green on hover */
+    background-color: #388e3c;
   }
 `;
 
@@ -103,7 +100,9 @@ const AddEmployeeModal = ({ onClose, onSave, editingEmployee }) => {
       setPosition(editingEmployee.position);
       setImage(editingEmployee.image);
     } else {
-      setId('');
+      // Generate new ID here or get from props if available
+      // This example assumes nextId is passed from the parent
+      setId(''); // ID is empty for new employee, set it from parent if required
       setFirstName('');
       setLastName('');
       setEmail('');
@@ -120,7 +119,7 @@ const AddEmployeeModal = ({ onClose, onSave, editingEmployee }) => {
       lastName,
       email,
       position,
-      image
+      image,
     };
     onSave(newEmployee);
   };
@@ -142,30 +141,52 @@ const AddEmployeeModal = ({ onClose, onSave, editingEmployee }) => {
         <Form onSubmit={handleSubmit}>
           <Label>
             Employee ID:
-            <Input type="text" value={id} onChange={(e) => setId(e.target.value)} required />
+            <Input type="text" value={id} readOnly />
           </Label>
           <Label>
             First Name:
-            <Input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+            <Input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
           </Label>
           <Label>
             Last Name:
-            <Input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+            <Input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
           </Label>
           <Label>
             Email:
-            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </Label>
           <Label>
             Position:
-            <Input type="text" value={position} onChange={(e) => setPosition(e.target.value)} required />
+            <Input
+              type="text"
+              value={position}
+              onChange={(e) => setPosition(e.target.value)}
+              required
+            />
           </Label>
           <Label>
             Upload Image:
             <Input type="file" onChange={handleImageChange} />
             {image && <ImagePreview src={image} alt="Employee" />}
           </Label>
-          <SubmitButton type="submit">{editingEmployee ? 'Save Changes' : 'Save'}</SubmitButton>
+          <SubmitButton type="submit">
+            {editingEmployee ? 'Save Changes' : 'Save'}
+          </SubmitButton>
         </Form>
       </ModalContainer>
     </ModalOverlay>

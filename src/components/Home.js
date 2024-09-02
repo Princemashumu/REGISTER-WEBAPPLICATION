@@ -23,7 +23,7 @@ const NavBar = styled.div`
 
 const CompanyName = styled.div`
   color: red;
-  font-size: 1.5em;
+  font-size: 1em;
   font-weight: bold;
 `;
 
@@ -87,46 +87,54 @@ const buttonStyle = {
 };
 
 const Home = () => {
-  const [employees, setEmployees] = useState([]);
-  const [deletedEmployees, setDeletedEmployees] = useState([]);
+  const [employees, setEmployees] = useState(() => {
+    // Initial load of employees from localStorage
+    const savedEmployees = localStorage.getItem('employees');
+    return savedEmployees ? JSON.parse(savedEmployees) : [];
+  });
+  const [nextId, setNextId] = useState(1);
+  const [deletedEmployees, setDeletedEmployees] = useState(() => {
+    // Initial load of deleted employees from localStorage
+    const savedDeletedEmployees = localStorage.getItem('deletedEmployees');
+    return savedDeletedEmployees ? JSON.parse(savedDeletedEmployees) : [];
+  });
+
   const [showModal, setShowModal] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [admin, setAdmin] = useState(() => {
+    // Initial load of admin from localStorage
+    const savedAdmin = localStorage.getItem('admin');
+    return savedAdmin ? JSON.parse(savedAdmin) : null;
+  });
 
   useEffect(() => {
-    try {
-      const storedEmployees = localStorage.getItem('employees');
-      const storedDeletedEmployees = localStorage.getItem('deletedEmployees');
+    // Save employees and deleted employees to localStorage whenever they change
+    localStorage.setItem('employees', JSON.stringify(employees));
+    localStorage.setItem('deletedEmployees', JSON.stringify(deletedEmployees));
 
-      console.log('Stored Employees:', storedEmployees);
-      console.log('Stored Deleted Employees:', storedDeletedEmployees);
+    // Update nextId based on the highest current ID
+    const maxId = employees.reduce((max, employee) => Math.max(max, parseInt(employee.id, 10)), 0);
+    setNextId(maxId + 1);
 
-      if (storedEmployees) {
-        setEmployees(JSON.parse(storedEmployees));
-      }
-      if (storedDeletedEmployees) {
-        setDeletedEmployees(JSON.parse(storedDeletedEmployees));
-      }
-    } catch (error) {
-      console.error("Error parsing localStorage data:", error);
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem('employees', JSON.stringify(employees));
-      localStorage.setItem('deletedEmployees', JSON.stringify(deletedEmployees));
-    } catch (error) {
-      console.error("Error saving to localStorage:", error);
-    }
   }, [employees, deletedEmployees]);
 
+  useEffect(() => {
+    // Save admin to localStorage whenever it changes
+    if (admin) {
+      localStorage.setItem('admin', JSON.stringify(admin));
+    }
+  }, [admin]);
+
   const handleSave = (newEmployee) => {
+    const employeeWithAdmin = { ...newEmployee, id: nextId, adminId: admin?.id }; // Assign admin ID
+
     if (editingEmployee) {
-      setEmployees(employees.map(emp => (emp.id === editingEmployee.id ? newEmployee : emp)));
+      setEmployees(employees.map(emp => (emp.id === editingEmployee.id ? employeeWithAdmin : emp)));
       setEditingEmployee(null);
     } else {
-      setEmployees([...employees, newEmployee]);
+      setEmployees([...employees, employeeWithAdmin]);
+      setNextId(nextId + 1);
     }
     setShowModal(false);
   };
@@ -150,8 +158,8 @@ const Home = () => {
 
   // Filter employees based on search query
   const filteredEmployees = employees.filter(employee =>
-    employee.id.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    employee.id.toString().toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   const handleMouseOver = (e) => {
     e.target.style.backgroundColor = '#388e3c'; /* Darker green */
@@ -172,7 +180,7 @@ const Home = () => {
 
         <LogoutButton>
           <Link to='/' style={{ textDecoration: 'none', color: 'inherit' }}>
-            LOG OUT
+            LOGOUT
           </Link>
         </LogoutButton>
       </NavBar>
